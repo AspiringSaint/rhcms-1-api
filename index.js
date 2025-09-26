@@ -9,12 +9,15 @@ const app = express();
 const PORT = process.env.PORT || 5500;
 
 const connectDB = require('./configurations/db.connection');
+const errorHandler = require('./middlewares/error.middleware');
 
 connectDB();
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
+
+app.use(errorHandler);
 
 mongoose.connection.once('open', () => {
     app.listen(PORT, () => {

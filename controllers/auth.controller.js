@@ -5,7 +5,7 @@ const asyncHandler = require('express-async-handler');
 
 /**
  * @description Create new staff
- * @route POST api/auth/register
+ * @route POST /api/auth/register
  * @access Private - Admin only
  */
 const register = asyncHandler ( async (req, res) => {
@@ -38,7 +38,7 @@ const register = asyncHandler ( async (req, res) => {
 
 /**
  * @description Login with email and password
- * @route POST api/auth/login
+ * @route POST /api/auth/login
  * @access Public
  */ 
 const login = asyncHandler ( async (req, res) => {
@@ -87,7 +87,30 @@ const login = asyncHandler ( async (req, res) => {
 })
 
 
+/**
+ * @description Logout 
+ * @route /api/auth/logout
+ * @access Public
+ */
+const logout = asyncHandler ( async (req, res) => {
+    const cookies = req.cookies;
+
+    if (!cookies?.jwt) {
+        return res.sendStatus(204);
+    };
+
+    res.clearCookie('jwt', {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none'
+    });
+
+    res.status(200).json({ message: 'Logged out successfully' });
+})
+
+
 module.exports = {
     register,
-    login
+    login,
+    logout
 }

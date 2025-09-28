@@ -46,7 +46,7 @@ const authorize = (...roles) => {
         }
 
         // Step 2: Check if user's role is allowed
-        if (!roles.includes(request.user.role)) {
+        if (!roles.includes(req.user.role)) {
             return res.status(403).json({ message: 'Forbidden: You do not have the right permissions' });
         }
 

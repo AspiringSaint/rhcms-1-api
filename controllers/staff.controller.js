@@ -1,6 +1,8 @@
 const Staff = require('../models/Staff');
 const bcrypt = require('bcrypt');
 const asyncHandler = require('express-async-handler');
+const mongoose  = require('mongoose');
+
 
 const createStaff = asyncHandler(async (req, res) => {
     const { name, role, email, password } = req.body;
@@ -29,6 +31,7 @@ const createStaff = asyncHandler(async (req, res) => {
     res.status(201).json({ message: 'New staff created' });
 });
 
+
 const getAllStaff = asyncHandler ( async (req, res) => {
     const staffs = await Staff.find().select('-password');
 
@@ -39,7 +42,23 @@ const getAllStaff = asyncHandler ( async (req, res) => {
     res.status(200).json(staffs);
 });
 
+const getStaffById = asyncHandler ( async (req, res) => {
+    const { id } = req.params;
+
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ message: 'Invalid Staff Id' });
+    }
+
+    const staff = await Staff.findById(id).select('-password');
+    if (!staff) {
+        return res.status(404).json({ message: 'Staff not found' });
+    };
+
+    res.status(200).json(staff);
+})
+
 module.exports = {
     createStaff,
-    getAllStaff
+    getAllStaff,
+    getStaffById
 };

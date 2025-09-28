@@ -29,7 +29,17 @@ const createStaff = asyncHandler(async (req, res) => {
     res.status(201).json({ message: 'New staff created' });
 });
 
+const getAllStaff = asyncHandler ( async (req, res) => {
+    const staffs = await Staff.find().select('-password');
+
+    if (!staffs?.length === 0) {
+        return res.status(400).json({ message: 'No current staffs' });
+    };
+
+    res.status(200).json(staffs);
+});
 
 module.exports = {
-    createStaff
+    createStaff,
+    getAllStaff
 };

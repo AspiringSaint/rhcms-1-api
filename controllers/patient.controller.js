@@ -30,6 +30,17 @@ const createPatient = asyncHandler ( async (req, res) => {
     res.status(201).json({ message: 'New patient data created successfully' });
 });
 
+const getPatients = asyncHandler ( async (req, res) => {
+    const patients = await Patient.find();
+
+    if (!patients) {
+        return res.status(404).json({ message: 'No patient records yet' });
+    }
+
+    res.status(200).json(patients);
+});
+
 module.exports = {
-    createPatient
+    createPatient,
+    getPatients
 };

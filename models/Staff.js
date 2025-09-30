@@ -8,6 +8,7 @@ const staffSchema = new mongoose.Schema(
             enum: ['admin', 'doctor', 'nurse', 'bhw', 'pharmacist'],
             default: 'bhw'
         },
+        specialty: { type: String },
         email: { type: String, required: true, unique: true },
         password: { type: String, required: true },
         status: {

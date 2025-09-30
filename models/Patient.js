@@ -24,7 +24,7 @@ const patientSchema = new mongoose.Schema(
         dob: { type: Date, required: true },
         gender: { type: String, enum: ['male', 'female', 'other'], required: true },
         address: { type: String, required: true },
-        contactNumber: { type: String },
+        contactNumber: { type: String, unique: true },
         primaryDoctorId: { type: mongoose.Schema.Types.ObjectId, ref: 'Staff' },
         medicalHistory: [medicalHistorySchema],
     },

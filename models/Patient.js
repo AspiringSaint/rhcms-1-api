@@ -17,6 +17,7 @@ const medicalHistorySchema = new mongoose.Schema(
 
 const patientSchema = new mongoose.Schema(
     {
+        patientId: { type: String, unique: true },
         firstName: { type: String, required: true },
         lastName: { type: String, required: true },
         suffix: { type: String },
@@ -31,5 +32,16 @@ const patientSchema = new mongoose.Schema(
         timestamps: true
     }
 );
+
+
+// Pre-save hook to generate patientId if missing
+patientSchema.pre('save', async function (next) {
+  if (!this.patientId) {
+    const count = await mongoose.model('Patient').countDocuments();
+    this.patientId = `RHC-${String(count + 1).padStart(4, '0')}`;
+  }
+  next();
+});
+
 
 module.exports = mongoose.model('Patient', patientSchema);

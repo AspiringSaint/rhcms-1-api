@@ -5,7 +5,7 @@ const mongoose  = require('mongoose');
 
 
 const createStaff = asyncHandler(async (req, res) => {
-    const { name, role, email, password } = req.body;
+    const { name, role, specialty, email, password } = req.body;
 
     if (!name || !email || !password) {
         return res.status(400).json({ message: 'Missing fields' });
@@ -20,6 +20,7 @@ const createStaff = asyncHandler(async (req, res) => {
     const staff = await Staff.create({
         name,
         role,
+        specialty,
         email,
         password: hashedPassword
     });

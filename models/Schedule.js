@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const scheduleSchema = new mongoose.Schema(
     {
         doctorId: { type: mongoose.Schema.Types.ObjectId, ref: "Staff", required: true },
-        specialty: { type: String, required: true },
+        specialty: { type: String },
         dayOfWeek: {
             type: String,
             enum: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'],
